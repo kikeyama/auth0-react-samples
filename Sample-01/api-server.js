@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 const authConfig = require("./src/auth_config.json");
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -28,6 +29,11 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors({ origin: appOrigin }));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
     cache: true,
@@ -46,5 +52,17 @@ app.get("/api/external", checkJwt, (req, res) => {
     msg: "Your access token was successfully validated!",
   });
 });
+
+app.post("/api/order", checkJwt, (req, res) => {
+  res.send({
+    msg: "Successfully ordered and you'll get pizza soon!",
+    order: {...req.body},
+  });
+});
+
+// health check for ALB
+app.get("/health", (req, res) => {
+  res.send("OK");
+})
 
 app.listen(port, () => console.log(`API Server listening on port ${port}`));
