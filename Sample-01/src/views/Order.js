@@ -58,7 +58,10 @@ export const OrderComponent = () => {
 
   const callApi = async () => {
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessTokenSilently({
+        audience: audience,
+        scope: 'read:users',
+      });
 
       // reset state to refresh at multiple orders
       setState({
