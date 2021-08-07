@@ -6,6 +6,7 @@ const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 const authConfig = require("./src/auth_config.json");
 const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -54,8 +55,12 @@ app.get("/api/external", checkJwt, (req, res) => {
 });
 
 app.post("/api/order", checkJwt, (req, res) => {
+  time = new Date().toISOString();
+  id = uuidv4();
   res.send({
     msg: "Successfully ordered and you'll get pizza soon!",
+    time: time,
+    id: id,
     order: {...req.body},
   });
 });

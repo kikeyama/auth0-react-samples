@@ -60,6 +60,12 @@ export const OrderComponent = () => {
     try {
       const token = await getAccessTokenSilently();
 
+      // reset state to refresh at multiple orders
+      setState({
+        ...state,
+        showResult: false,
+      });
+
       var payload = {
         user: user.name,
         product: 'demo pizza',
