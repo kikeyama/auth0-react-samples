@@ -83,12 +83,14 @@ app.post("/api/order", checkJwt, checkScopes, (req, res) => {
       console.log(err.message);
       return;
     }
-    if (user?.user_metadata === undefined) {
-      user.user_metadata = {};
-    }
-    if (user?.user_metadata?.orders === undefined) {
-      user.user_metadata.orders = [];
-    }
+    //if (user?.user_metadata === undefined) {
+    //  user.user_metadata = {};
+    //}
+    user.user_metadata = user?.user_metadata || {};
+    //if (user?.user_metadata?.orders === undefined) {
+    //  user.user_metadata.orders = [];
+    //}
+    user.user_metadata.orders = user?.user_metadata?.orders || [];
     user.user_metadata.orders.push(result);
     //metadata = user.user_metadata;
     auth0.updateUserMetadata({ id: req.body.user_id }, user.user_metadata, (err, user) => {
