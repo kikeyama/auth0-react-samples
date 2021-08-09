@@ -60,7 +60,7 @@ export const OrderComponent = () => {
     try {
       const token = await getAccessTokenSilently({
         audience: audience,
-        scope: 'read:users',
+        scope: 'create:orders',
       });
 
       // reset state to refresh at multiple orders
@@ -70,7 +70,8 @@ export const OrderComponent = () => {
       });
 
       var payload = {
-        user: user.name,
+        user_id: user.sub,
+        user_name: user.name,
         product: 'demo pizza',
         unit: 1,
         price: 10.00,
