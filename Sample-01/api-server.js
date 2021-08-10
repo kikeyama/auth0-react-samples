@@ -58,7 +58,8 @@ const checkJwt = jwt({
   algorithms: ["RS256"],
 });
 
-const checkScopes = jwtAuthz([ 'create:orders' ]);
+const checkScopesCreateOrders = jwtAuthz([ 'create:orders' ]);
+const checkScopesUpdateVerification = jwtAuthz([ 'update:verification_email' ]);
 
 app.get("/api/external", checkJwt, (req, res) => {
   res.send({
@@ -67,7 +68,7 @@ app.get("/api/external", checkJwt, (req, res) => {
 });
 
 // receive orders
-app.post("/api/order", checkJwt, checkScopes, (req, res) => {
+app.post("/api/order", checkJwt, checkScopesCreateOrders, (req, res) => {
   var time = new Date().toISOString();
   var id = uuidv4();
   var result = {
@@ -104,9 +105,31 @@ app.post("/api/order", checkJwt, checkScopes, (req, res) => {
   //metadata.orders.push(result);
 });
 
+// send verification email
+app.post("/api/management/jobs/verification-email", checkJwt, checkScopesUpdateVerification, (req, res) => {
+  try {
+    auth0.sendEmailVerification(req.body, (err) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(err.statusCode).json({
+          status: 'error',
+          message: err.message
+        });
+      } else {
+        return res.send({status: 'success'});
+      }
+    });
+  } catch (e) {
+    return res.status(e.statusCode).json({
+      status: 'error',
+      message: e.message
+    });
+  }
+});
+
 // health check for ALB
 app.get("/health", (req, res) => {
   res.send("OK");
-})
+});
 
 app.listen(port, () => console.log(`API Server listening on port ${port}`));

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Button, Alert } from "reactstrap";
+import { Container, Row, Col, Button, Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
 import Loading from "../components/Loading";
+import food_pizza from '../img/food_pizza.png';
 
 export const OrderComponent = () => {
   //const { apiOrigin = "http://localhost:3001", audience } = getConfig();
@@ -137,6 +138,14 @@ export const OrderComponent = () => {
         )}
 
         <h1>Order</h1>
+
+        <Container>
+          <Row>
+            <Col>
+              <img src={food_pizza} />
+            </Col>
+          </Row>
+        </Container>
 
         {!audience && (
           <Alert color="warning">

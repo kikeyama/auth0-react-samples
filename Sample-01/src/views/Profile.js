@@ -65,7 +65,7 @@ export const ProfileComponent = () => {
 
   var orders = userMetadata?.orders.map((value, index) => {
     return (
-      <Row>
+      <Row key={index}>
         <Highlight>{JSON.stringify(value, null, 2)}</Highlight>
       </Row>
     );
