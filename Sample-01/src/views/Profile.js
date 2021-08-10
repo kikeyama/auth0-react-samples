@@ -32,8 +32,8 @@ export const ProfileComponent = () => {
 
   const getUserMetadata = async () => {  
     try {
-      //const accessToken = await getAccessTokenSilently({  // Failed with `Consent required`
-      const accessToken = await getAccessTokenWithPopup({
+      const accessToken = await getAccessTokenSilently({  // Failed with `Consent required` --> fixed by enabling `Allow Skipping User Consent`
+      //const accessToken = await getAccessTokenWithPopup({
         audience: `https://${domain}/api/v2/`,
         scope: "read:current_user"
         //audience: audience,
