@@ -11,9 +11,15 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
-const port = process.env.API_PORT || 3001;
+require('dotenv').config({ path: `${__dirname}/.env` });
+
+var port = process.env.API_PORT || 3001;
 const appPort = process.env.SERVER_PORT || 3000;
-const appOrigin = authConfig.appOrigin || `http://localhost:${appPort}`;
+const appOrigin = process.env.APP_ORIGIN || authConfig.appOrigin || `http://localhost:${appPort}`;
+
+if (process.env.NODE_ENV === 'prod') {
+  port = process.env.API_PORT || 8080;
+}
 
 const ManagementClient = require('auth0').ManagementClient;
 
@@ -60,6 +66,7 @@ const checkJwt = jwt({
 
 const checkScopesCreateOrders = jwtAuthz([ 'create:orders' ]);
 const checkScopesUpdateVerification = jwtAuthz([ 'update:verification_email' ]);
+const checkScopesUpdateUser = jwtAuthz([ 'update:user_verified' ]);
 
 app.get("/api/external", checkJwt, (req, res) => {
   res.send({
@@ -117,6 +124,31 @@ app.post("/api/management/jobs/verification-email", checkJwt, checkScopesUpdateV
         });
       } else {
         return res.send({status: 'success'});
+      }
+    });
+  } catch (e) {
+    return res.status(e.statusCode).json({
+      status: 'error',
+      message: e.message
+    });
+  }
+});
+
+// Update user
+app.post("/api/management/users/:id", checkJwt, checkScopesUpdateUser, (req, res) => {
+  try {
+    auth0.updateUser(req.params.id, req.body, (err, user) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(err.statusCode).json({
+          status: 'error',
+          message: err.message
+        });
+      } else {
+        return res.send({
+          status: 'success',
+          user: user
+        });
       }
     });
   } catch (e) {
