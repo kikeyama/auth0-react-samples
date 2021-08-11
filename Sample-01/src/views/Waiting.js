@@ -12,7 +12,8 @@ const WaitingComponent = () => {
     isAuthenticated,
     isLoading,
     getAccessTokenSilently,
-    getAccessTokenWithPopup
+    getAccessTokenWithPopup,
+    logout
   } = useAuth0();
   const [state, setState] = useState({
     showResult: false,
@@ -125,12 +126,19 @@ const WaitingComponent = () => {
     return <Loading />;
   }
 
+  const logoutWithRedirect = () =>
+    logout({
+      returnTo: window.location.origin,
+    });
+
   return (
     //isAuthenticated && (
       <div>
         <h1>Waiting for email varification</h1>
         <div>
           Go to <Link to="/">Home</Link>
+          {" | "}
+          <Link onClick={logoutWithRedirect}>Logout</Link>
         </div>
         <div>
           <Button
