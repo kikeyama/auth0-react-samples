@@ -16,5 +16,7 @@ export function getConfig() {
     domain: configJson.domain,
     clientId: configJson.clientId,
     ...(audience ? { audience } : null),
+    appOrigin: configJson.appOrigin || 'localhost:3000',
+    apiOrigin: configJson.apiOrigin || 'localhost:3001',
   };
 }

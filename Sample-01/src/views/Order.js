@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button, Alert } from "reactstrap";
+import { Container, Row, Col, Button, Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
 import Loading from "../components/Loading";
+import food_pizza from '../img/food_pizza.png';
 
-export const ExternalApiComponent = () => {
+export const OrderComponent = () => {
   //const { apiOrigin = "http://localhost:3001", audience } = getConfig();
   const { apiOrigin, audience } = getConfig();
 
@@ -16,6 +17,7 @@ export const ExternalApiComponent = () => {
   });
 
   const {
+    user,
     getAccessTokenSilently,
     loginWithPopup,
     getAccessTokenWithPopup,
@@ -57,12 +59,33 @@ export const ExternalApiComponent = () => {
 
   const callApi = async () => {
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessTokenSilently({
+        audience: audience,
+        scope: 'create:orders',
+      });
 
-      const response = await fetch(`${apiOrigin}/api/external`, {
+      // reset state to refresh at multiple orders
+      setState({
+        ...state,
+        showResult: false,
+      });
+
+      var payload = {
+        user_id: user.sub,
+        user_name: user.name,
+        product: 'demo pizza',
+        unit: 1,
+        price: 10.00,
+      }
+
+      const response = await fetch(`${apiOrigin}/api/order`, {
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
+        body: JSON.stringify(payload),
       });
 
       const responseData = await response.json();
@@ -114,17 +137,15 @@ export const ExternalApiComponent = () => {
           </Alert>
         )}
 
-        <h1>External API</h1>
-        <p className="lead">
-          Ping an external API by clicking the button below.
-        </p>
+        <h1>Order</h1>
 
-        <p>
-          This will call a local API on port 3001 that would have been started
-          if you run <code>npm run dev</code>. An access token is sent as part
-          of the request's `Authorization` header and the API will validate it
-          using the API's audience value.
-        </p>
+        <Container>
+          <Row>
+            <Col>
+              <img src={food_pizza} />
+            </Col>
+          </Row>
+        </Container>
 
         {!audience && (
           <Alert color="warning">
@@ -178,7 +199,7 @@ export const ExternalApiComponent = () => {
           onClick={callApi}
           disabled={!audience}
         >
-          Ping API
+          Place an Order
         </Button>
       </div>
 
@@ -196,6 +217,6 @@ export const ExternalApiComponent = () => {
   );
 };
 
-export default withAuthenticationRequired(ExternalApiComponent, {
+export default withAuthenticationRequired(OrderComponent, {
   onRedirecting: () => <Loading />,
 });
