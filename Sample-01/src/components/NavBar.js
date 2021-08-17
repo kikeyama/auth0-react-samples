@@ -53,7 +53,7 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </NavItem>
-              {isAuthenticated && (
+              {(isAuthenticated && user.email_verified) && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
@@ -65,7 +65,7 @@ const NavBar = () => {
                   </NavLink>
                 </NavItem>
               )}
-              {isAuthenticated && (
+              {(isAuthenticated && user.email_verified) && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}

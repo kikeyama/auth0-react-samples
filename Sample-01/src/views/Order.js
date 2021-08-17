@@ -5,6 +5,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
 import Loading from "../components/Loading";
 import food_pizza from '../img/food_pizza.png';
+import '../order.css';
 
 export const OrderComponent = () => {
   //const { apiOrigin = "http://localhost:3001", audience } = getConfig();
@@ -15,6 +16,8 @@ export const OrderComponent = () => {
     apiMessage: "",
     error: null,
   });
+
+  const [order, setOrder] = useState([]);
 
   const {
     user,
@@ -141,9 +144,18 @@ export const OrderComponent = () => {
 
         <Container>
           <Row>
-            <Col>
-              <img src={food_pizza} />
+            <Col md={{size:2, offset:1}}>
+              <img
+                src={food_pizza}
+                className="product-img"
+                alt="demo pizza"
+              />
             </Col>
+            <Col>
+              <h2>Demo Pizza</h2>
+              <div>unit price: $10.00</div>
+            </Col>
+            <Col></Col>
           </Row>
         </Container>
 
