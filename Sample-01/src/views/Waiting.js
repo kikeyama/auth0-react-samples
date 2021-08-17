@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { Link } from 'react-router-dom';
-import { Button } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import Highlight from "../components/Highlight";
 import Loading from "../components/Loading";
@@ -9,10 +9,10 @@ import { getConfig } from "../config";
 const WaitingComponent = () => {
   const {
     user,
-    isAuthenticated,
+    //isAuthenticated,
     isLoading,
     getAccessTokenSilently,
-    getAccessTokenWithPopup,
+    //getAccessTokenWithPopup,
     logout
   } = useAuth0();
   const [state, setState] = useState({
@@ -21,7 +21,12 @@ const WaitingComponent = () => {
     error: null,
   });
 
-  const { audience, domain, clientId, apiOrigin } = getConfig();
+  const {
+    audience,
+    //domain,
+    //clientId,
+    apiOrigin
+  } = getConfig();
 
 //  const handleConsent = async () => {
 //    try {
@@ -134,33 +139,44 @@ const WaitingComponent = () => {
   return (
     //isAuthenticated && (
       <div>
-        <h1>Waiting for email varification</h1>
+        <h1>Waiting for email verification</h1>
         <div>
           Go to <Link to="/">Home</Link>
           {" | "}
           <Link onClick={logoutWithRedirect}>Logout</Link>
         </div>
-        <div>
-          <Button
-            color="primary"
-            className="mt-5"
-            onClick={postVerificationEmail}
-          >
-            Resend verification email
-          </Button>
-          <Button
-            color="primary"
-            className="mt-5"
-            onClick={postUserVerified}
-          >
-            Force verified (not recommended)
-          </Button>
-        </div>
+        <Container className="mt-5">
+          <Row className="justify-content-md-center">
+            <Col md className="mt-3 mb-3">You haven't got verification email?</Col>
+            <Col md className="mt-3 mb-3">
+              <Button
+                color="primary"
+                onClick={postVerificationEmail}
+              >
+                Resend verification email
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col md className="mt-3 mb-3">Do you want to make it verified? (only for test purpose)</Col>
+            <Col md className="mt-3 mb-3">
+              <Button
+                color="primary"
+                onClick={postUserVerified}
+              >
+                Force verified (not recommended)
+            </Button>
+            </Col>
+          </Row>
+        </Container>
         <div>
           {state.showResult && (
-            <Highlight>
-              <span>{JSON.stringify(state.apiMessage, null, 2)}</span>
-            </Highlight>
+            <div>
+              <h2>Result</h2>
+              <Highlight>
+                <span>{JSON.stringify(state.apiMessage, null, 2)}</span>
+              </Highlight>
+            </div>
           )}
         </div>
       </div>

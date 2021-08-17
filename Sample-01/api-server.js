@@ -137,7 +137,8 @@ app.post("/api/management/jobs/verification-email", checkJwt, checkScopesUpdateV
 // Update user
 app.post("/api/management/users/:id", checkJwt, checkScopesUpdateUser, (req, res) => {
   try {
-    auth0.updateUser(req.params.id, req.body, (err, user) => {
+    console.log(`id: ${req.params.id}`);
+    auth0.updateUser({id: req.params.id}, req.body, (err, user) => {
       if (err) {
         console.log(err.message);
         return res.status(err.statusCode).json({
