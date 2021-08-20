@@ -17,7 +17,7 @@ export const OrderComponent = () => {
     error: null,
   });
 
-  const [order, setOrder] = useState([]);
+  const [number, setNumber] = useState(0);
 
   const {
     user,
@@ -111,6 +111,10 @@ export const OrderComponent = () => {
     fn();
   };
 
+  const handleChange = (e) => {
+    setNumber(e.target.value);
+  };
+
   return (
     <>
       <div className="mb-5">
@@ -155,7 +159,19 @@ export const OrderComponent = () => {
               <h2>Demo Pizza</h2>
               <div>unit price: $10.00</div>
             </Col>
-            <Col></Col>
+            <Col>
+              <form>
+                <hiddne name="product" value="demo pizza" />
+                <hidden name="unitPrice" value="10.00" />
+                <input
+                  type="number"
+                  name="unit"
+                  value={number}
+                  min="0"
+                  onChange={handleChange}
+                />
+              </form>
+            </Col>
           </Row>
         </Container>
 
