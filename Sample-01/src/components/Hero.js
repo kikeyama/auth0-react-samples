@@ -1,17 +1,32 @@
 import React from "react";
+import logo from "../img/delivery_pizza.png";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from 'react-router-dom';
 
-import logo from "../assets/logo.svg";
+const Hero = () => {
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+  } = useAuth0();
 
-const Hero = () => (
-  <div className="text-center hero my-5">
-    <img className="mb-3 app-logo" src={logo} alt="React logo" width="120" />
-    <h1 className="mb-4">React.js Sample Project</h1>
+  return (
+    <div className="text-center hero my-5">
+      <img className="mb-3 app-logo" src={logo} alt="Pizza 42 logo" width="360" />
+      <h1 className="mb-4">Welcome to Pizza 42!!</h1>
 
-    <p className="lead">
-      This is a sample application that demonstrates an authentication flow for
-      an SPA, using <a href="https://reactjs.org">React.js</a>
-    </p>
-  </div>
-);
+        {!isAuthenticated
+          ? (
+      <p className="lead">
+            Get pizzas now <Link onClick={() => loginWithRedirect()}>Login</Link>
+      </p>
+          ) : (
+      <p className="lead">
+            <Link to="/order">Order</Link> pizzas and you&#39;ll get them soon.
+      </p>
+          )
+        }
+    </div>
+  );
+};
 
 export default Hero;

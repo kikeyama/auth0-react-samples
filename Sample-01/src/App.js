@@ -10,6 +10,7 @@ import Home from "./views/Home";
 import Profile from "./views/Profile";
 import ExternalApi from "./views/ExternalApi";
 import Order from "./views/Order";
+import OrderHistory from "./views/OrderHistory";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -39,6 +40,7 @@ const App = () => {
           <Switch>
             <CustomRoute path="/" exact component={Home} />
             <CustomRoute path="/profile" component={Profile} />
+            <CustomRoute path="/history" component={OrderHistory} />
             <CustomRoute path="/external-api" component={ExternalApi} />
             <CustomRoute path="/order" component={Order} />
           </Switch>
