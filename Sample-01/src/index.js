@@ -24,6 +24,7 @@ const providerConfig = {
   redirectUri: window.location.origin,
   onRedirectCallback,
   useRefreshTokens: true,
+  scope: "create:orders read:orders update:orders delete:orders read:current_user read:hoge",
 };
 
 ReactDOM.render(

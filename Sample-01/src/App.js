@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
 
 import Loading from "./components/Loading";
@@ -33,21 +33,21 @@ const App = () => {
   }
 
   return (
-    <Router history={history}>
+    <BrowserRouter history={history}>
       <div id="app" className="d-flex flex-column h-100">
         <NavBar />
         <Container className="flex-grow-1 mt-5">
           <Switch>
-            <CustomRoute path="/" exact component={Home} />
-            <CustomRoute path="/profile" component={Profile} />
-            <CustomRoute path="/history" component={OrderHistory} />
-            <CustomRoute path="/external-api" component={ExternalApi} />
-            <CustomRoute path="/order" component={Order} />
+            <CustomRoute path="/" title="Home | Pizza42" exact component={Home} />
+            <CustomRoute path="/profile" title="Profile | Pizza42" component={Profile} />
+            <CustomRoute path="/history" title="Order History | Pizza42" component={OrderHistory} />
+            <CustomRoute path="/external-api" title="API Test | Pizza42" component={ExternalApi} />
+            <CustomRoute path="/order" title="Order | Pizza42" component={Order} />
           </Switch>
         </Container>
         <Footer />
       </div>
-    </Router>
+    </BrowserRouter>
   );
 };
 
