@@ -59,7 +59,7 @@ export const OrganizationsComponent = () => {
     try {
       console.log('start getAccessToken');
       //const token = await getAccessTokenWithPopup({
-      const token = await getAccessTokenSilently({  // Failed with `Consent required` --> fixed by enabling `Allow Skipping User Consent`
+      const token = await getAccessTokenSilently({
         audience: config.audinence,
         scope: scopes.join(' '),
       });

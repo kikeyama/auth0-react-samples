@@ -14,6 +14,7 @@ export function getConfig() {
 
   return {
     domain: configJson.domain,
+    tenantDomain: configJson.tenantDomain,
     clientId: configJson.clientId,
     ...(audience ? { audience } : null),
     appOrigin: configJson.appOrigin || 'localhost:3000',
