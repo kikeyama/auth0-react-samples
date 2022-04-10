@@ -60,6 +60,7 @@ export const OrganizationsComponent = () => {
       console.log('start getAccessToken');
       //const token = await getAccessTokenWithPopup({
       const token = await getAccessTokenSilently({
+        ignoreCache: true,
         audience: audience,
         scope: scopes.join(' '),
       });

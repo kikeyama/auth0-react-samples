@@ -60,6 +60,7 @@ export const OrgInfoComponent = (props) => {
     try {
       //const token = await getAccessTokenWithPopup({
       const token = await getAccessTokenSilently({
+        ignoreCache: true,
         audience: audience,
         scope: scopes.join(' '),
         organization: orgId,
