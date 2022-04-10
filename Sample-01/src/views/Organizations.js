@@ -43,7 +43,7 @@ export const OrganizationsComponent = () => {
     try {
       console.log('start handleConsent');
       const token = await getAccessTokenWithPopup({
-        audience: audinence,
+        audience: audience,
         scope: scopes.join(' '),
       });
       setAccessToken(token);
@@ -60,7 +60,7 @@ export const OrganizationsComponent = () => {
       console.log('start getAccessToken');
       //const token = await getAccessTokenWithPopup({
       const token = await getAccessTokenSilently({
-        audience: audinence,
+        audience: audience,
         scope: scopes.join(' '),
       });
       setAccessToken(token);
