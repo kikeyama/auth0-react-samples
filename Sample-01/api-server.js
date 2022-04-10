@@ -24,14 +24,14 @@ if (process.env.NODE_ENV === 'prod') {
 const ManagementClient = require('auth0').ManagementClient;
 
 const auth0 = new ManagementClient({
-  domain: authConfig.domain,
+  domain: authConfig.tenantDomain,
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  scope: 'read:users update:users'
+  scope: 'read:users update:users read:organizations read:organizations_summary read:organization_member_roles'
 });
 
 if (
-  !authConfig.domain ||
+  !authConfig.tenantDomain ||
   !authConfig.audience ||
   authConfig.audience === "YOUR_API_IDENTIFIER"
 ) {
@@ -67,6 +67,7 @@ const checkJwt = jwt({
 const checkScopesCreateOrders = jwtAuthz([ 'create:orders' ]);
 const checkScopesUpdateVerification = jwtAuthz([ 'update:verification_email' ]);
 const checkScopesUpdateUser = jwtAuthz([ 'update:user_verified' ]);
+const checkScopesReadOrg = jwtAuthz([ 'read:org' ]);
 
 app.get("/api/external", checkJwt, (req, res) => {
   res.send({
@@ -149,6 +150,84 @@ app.post("/api/management/users/:id", checkJwt, checkScopesUpdateUser, (req, res
         return res.send({
           status: 'success',
           user: user
+        });
+      }
+    });
+  } catch (e) {
+    return res.status(e.statusCode).json({
+      status: 'error',
+      message: e.message
+    });
+  }
+});
+
+// List User's Organizations
+app.get("/api/management/users/:id/organizations", checkJwt, checkScopesReadOrg, (req, res) => {
+  try {
+    console.log(`id: ${req.params.id}`);
+    auth0.users.getUserOrganizations({id: req.params.id}, (err, orgs) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(err.statusCode).json({
+          status: 'error',
+          message: err.message
+        });
+      } else {
+        return res.send({
+          status: 'success',
+          orgs: orgs
+        });
+      }
+    });
+  } catch (e) {
+    return res.status(e.statusCode).json({
+      status: 'error',
+      message: e.message
+    });
+  }
+});
+
+// Get Organization by Org ID
+app.get("/api/management/organizations/:id", checkJwt, checkScopesReadOrg, (req, res) => {
+  try {
+    console.log(`id: ${req.params.id}`);
+    auth0.organizations.getByID({id: req.params.id}, (err, org) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(err.statusCode).json({
+          status: 'error',
+          message: err.message
+        });
+      } else {
+        return res.send({
+          status: 'success',
+          org: org
+        });
+      }
+    });
+  } catch (e) {
+    return res.status(e.statusCode).json({
+      status: 'error',
+      message: e.message
+    });
+  }
+});
+
+// Get Roles from a member in a Organization
+app.get("/api/management/organizations/:id/members/:userId/roles", checkJwt, checkScopesReadOrg, (req, res) => {
+  try {
+    console.log(`id: ${req.params.id} / user_id: ${req.params.userId}`);
+    auth0.organizations.getMemberRoles({id: req.params.id, user_id: req.params.userId}, (err, roles) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(err.statusCode).json({
+          status: 'error',
+          message: err.message
+        });
+      } else {
+        return res.send({
+          status: 'success',
+          roles: roles
         });
       }
     });

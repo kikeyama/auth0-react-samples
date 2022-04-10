@@ -11,6 +11,8 @@ import Profile from "./views/Profile";
 import ExternalApi from "./views/ExternalApi";
 import Order from "./views/Order";
 import OrderHistory from "./views/OrderHistory";
+import Organizations from "./views/Organizations";
+import OrgInfo from "./views/OrgInfo";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
 
@@ -43,6 +45,8 @@ const App = () => {
             <CustomRoute path="/history" title="Order History | Pizza42" component={OrderHistory} />
             <CustomRoute path="/external-api" title="API Test | Pizza42" component={ExternalApi} />
             <CustomRoute path="/order" title="Order | Pizza42" component={Order} />
+            <CustomRoute path="/organizations" title="Organizations | Pizza42" exact component={Organizations} />
+            <CustomRoute path="/organizations/:orgId" title="Organizations | Pizza42" component={OrgInfo} />
           </Switch>
         </Container>
         <Footer />

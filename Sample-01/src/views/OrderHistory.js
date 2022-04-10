@@ -11,7 +11,7 @@ export const OrderHistoryComponent = () => {
   const [userMetadata, setUserMetadata] = useState(null);
   const [err, setErr] = useState(null);
 
-  const { audience, domain } = getConfig();
+  const { audience, tenantDomain } = getConfig();
 
   const handle = (e, fn) => {
     e.preventDefault();
@@ -34,13 +34,11 @@ export const OrderHistoryComponent = () => {
     try {
       const accessToken = await getAccessTokenSilently({  // Failed with `Consent required` --> fixed by enabling `Allow Skipping User Consent`
       //const accessToken = await getAccessTokenWithPopup({
-        audience: `https://${domain}/api/v2/`,
-        scope: "read:current_user"
-        //audience: audience,
-        //scope: "read:current_user",
+        audience: `https://${tenantDomain}/api/v2/`,
+        scope: 'read:current_user',
       });
 
-      const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+      const userDetailsByIdUrl = `https://${tenantDomain}/api/v2/users/${user.sub}`;
 
       const metadataResponse = await fetch(userDetailsByIdUrl, {
         headers: {

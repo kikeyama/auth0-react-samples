@@ -78,6 +78,18 @@ const NavBar = () => {
                   </NavLink>
                 </NavItem>
               )}
+              {(isAuthenticated && user.email_verified) && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/organizations"
+                    exact
+                    activeClassName="router-link-exact-active"
+                  >
+                    Organizations
+                  </NavLink>
+                </NavItem>
+              )}
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isAuthenticated && (
