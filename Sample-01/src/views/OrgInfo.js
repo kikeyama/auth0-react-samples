@@ -23,7 +23,7 @@ export const OrgInfoComponent = (props) => {
 
   const mounted = useRef(false)
 
-  const config = getConfig();
+  const { apiOrigin, audience } = getConfig();
 
   const orgId = props.match.params.orgId;
 
@@ -44,7 +44,7 @@ export const OrgInfoComponent = (props) => {
   const handleConsent = async () => {
     try {
       const token = await getAccessTokenWithPopup({
-        audience: config.audinence,
+        audience: audinence,
         scope: scopes.join(' '),
         organization: orgId,
       });
@@ -60,7 +60,7 @@ export const OrgInfoComponent = (props) => {
     try {
       //const token = await getAccessTokenWithPopup({
       const token = await getAccessTokenSilently({
-        audience: config.audinence,
+        audience: audinence,
         scope: scopes.join(' '),
         organization: orgId,
       });
@@ -74,8 +74,8 @@ export const OrgInfoComponent = (props) => {
 
   const getOrg = async () => {
     try{
-      const orgUrl = `${config.apiOrigin}/api/management/organizations/${orgId}`;
-      const orgRoleUrl = `${config.apiOrigin}/api/management/organizations/${orgId}/members/${user.sub}/roles`;
+      const orgUrl = `${apiOrigin}/api/management/organizations/${orgId}`;
+      const orgRoleUrl = `${apiOrigin}/api/management/organizations/${orgId}/members/${user.sub}/roles`;
 
       const orgResponse = await fetch(orgUrl, {
         headers: {

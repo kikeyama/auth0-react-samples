@@ -23,7 +23,7 @@ export const OrganizationsComponent = () => {
 
   const mounted = useRef(false)
 
-  const config = getConfig();
+  const { apiOrigin, audience } = getConfig();
 
   const scopes = [
     'create:orders',
@@ -43,7 +43,7 @@ export const OrganizationsComponent = () => {
     try {
       console.log('start handleConsent');
       const token = await getAccessTokenWithPopup({
-        audience: config.audinence,
+        audience: audinence,
         scope: scopes.join(' '),
       });
       setAccessToken(token);
@@ -60,7 +60,7 @@ export const OrganizationsComponent = () => {
       console.log('start getAccessToken');
       //const token = await getAccessTokenWithPopup({
       const token = await getAccessTokenSilently({
-        audience: config.audinence,
+        audience: audinence,
         scope: scopes.join(' '),
       });
       setAccessToken(token);
@@ -74,7 +74,7 @@ export const OrganizationsComponent = () => {
 
   const getUserOrganizations = async () => {
     try {
-      const userOrgUrl = `${config.apiOrigin}/api/management/users/${user.sub}/organizations`;
+      const userOrgUrl = `${apiOrigin}/api/management/users/${user.sub}/organizations`;
 
       const userOrgResponse = await fetch(userOrgUrl, {
         headers: {
