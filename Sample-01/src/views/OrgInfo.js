@@ -44,7 +44,7 @@ export const OrgInfoComponent = (props) => {
   const handleConsent = async () => {
     try {
       const token = await getAccessTokenWithPopup({
-        audience: audinence,
+        audience: audience,
         scope: scopes.join(' '),
         organization: orgId,
       });
@@ -60,7 +60,7 @@ export const OrgInfoComponent = (props) => {
     try {
       //const token = await getAccessTokenWithPopup({
       const token = await getAccessTokenSilently({
-        audience: audinence,
+        audience: audience,
         scope: scopes.join(' '),
         organization: orgId,
       });
