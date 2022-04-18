@@ -69,6 +69,11 @@ const checkScopesUpdateVerification = jwtAuthz([ 'update:verification_email' ]);
 const checkScopesUpdateUser = jwtAuthz([ 'update:user_verified' ]);
 const checkScopesReadOrg = jwtAuthz([ 'read:org' ]);
 
+app.get("/healthz", (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.send({status:"ok"});
+});
+
 app.get("/api/external", checkJwt, (req, res) => {
   res.send({
     msg: "Your access token was successfully validated!",
