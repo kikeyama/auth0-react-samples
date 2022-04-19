@@ -3,8 +3,8 @@ Description=Load dump capture kernel
 
 [Service]
 Type=simple
-#ExecStart=/home/ubuntu/auth0-react-samples/Sample-01/start-api-server.sh
-ExecStart=node /home/ubuntu/auth0-react-samples/Sample-01/api-server.js
+ExecStart=/home/ubuntu/auth0-react-samples/Sample-01/start-api-server.sh
+#ExecStart=node /home/ubuntu/auth0-react-samples/Sample-01/api-server.js
 RemainAfterExit=yes
 User=ubuntu
 Group=ubuntu
