@@ -98,7 +98,9 @@ const NavBar = () => {
                     id="qsLoginBtn"
                     color="primary"
                     className="btn-margin"
-                    onClick={() => loginWithRedirect()}
+                    onClick={() => loginWithRedirect({
+                      //connection: 'tmp-2nd-database',
+                    })}
                   >
                     Log in
                   </Button>
@@ -150,7 +152,9 @@ const NavBar = () => {
                     id="qsLoginBtn"
                     color="primary"
                     block
-                    onClick={() => loginWithRedirect({})}
+                    onClick={() => loginWithRedirect({
+                      //connection: 'tmp-2nd-database',
+                    })}
                   >
                     Log in
                   </Button>
