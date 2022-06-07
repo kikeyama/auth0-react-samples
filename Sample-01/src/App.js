@@ -6,7 +6,6 @@ import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import CustomRoute from "./components/CustomRoute";
-import Auth0WrappedRoute from "./components/Auth0WrappedRoute";
 import Home from "./views/Home";
 import Profile from "./views/Profile";
 import ExternalApi from "./views/ExternalApi";
