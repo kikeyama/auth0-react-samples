@@ -44,7 +44,9 @@ if (
 
 app.use(morgan("dev"));
 app.use(helmet());
-app.use(cors({ origin: appOrigin }));
+
+const subdomainRegex = new RegExp(appOrigin.replace(/https?:\/\//, '').replace(/\./g, '\\.'));
+app.use(cors({ origin: [appOrigin, subdomainRegex] }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

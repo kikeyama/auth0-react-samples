@@ -29,6 +29,11 @@ const providerConfig = {
   cacheLocation: 'localstorage',
 };
 
+const pathArray = window.location.pathname.split('/');
+if (pathArray[1] === 'organizations') {
+  providerConfig.organization = pathArray[2];
+}
+
 ReactDOM.render(
   <Auth0Provider {...providerConfig}>
     <App />

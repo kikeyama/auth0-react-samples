@@ -56,4 +56,21 @@
       </ul>
     </footer>
   </body>
+  <script>
+    window.addEventListener('DOMContentLoaded', function(ev) {
+      const username = document.querySelector("input[name='username']");
+      const usernameRegex = /^.*#.*$/;
+      if (usernameRegex.test(username.value)) {
+        username.value = username.value.split('#')[0];
+      }
+    });
+
+    document.querySelector("form").onsubmit = function(ev) {
+      const username = document.querySelector("input[name='username']");
+      const emailRegex = /.+@.+\..+/;
+      if ("{{organization.name}}" && !emailRegex.test(username.value)) {
+        username.value = username.value + "#{{organization.name}}";
+      }
+    }
+  </script>
 </html>

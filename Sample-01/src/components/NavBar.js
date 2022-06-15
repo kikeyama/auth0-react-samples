@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHistory } from "@fortawesome/free-solid-svg-icons";
+//import { getConfig } from "../config";
 
 import {
   Collapse,
@@ -23,6 +24,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+/*
+  const [org, setOrg] = useState({});
+  const [err, setErr] = useState(null);
+*/
+
   const {
     user,
     isAuthenticated,
@@ -35,6 +41,47 @@ const NavBar = () => {
     logout({
       returnTo: window.location.origin,
     });
+
+/*
+  const { appOrigin } = getConfig();
+  const currentOrigin = window.location.origin;
+  let authOptions = {};
+
+  try {
+    const currentOriginArray = currentOrigin.match(/(https?:\/\/)([^\.]+)\.([^$]+)$/);
+    const subdomain = currentOriginArray[2];
+
+    if (appOrigin !== currentOrigin && appOrigin === currentOriginArray[1] + currentOriginArray[3]) {
+      console
+    }
+  } catch (e) {
+    if (e instanceof TypeError) {
+      console.log(e);
+      setErr(e.error);
+    }
+  }
+
+  const getOrganizationByName = async (orgName) => {
+    try {
+      const orgUrl = `${apiOrigin}/api/management/organizations/name/${orgName}`;
+
+      const orgResponse = await fetch(orgUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      orgResponse.json().then(data => {
+        return data.id;
+      });
+
+    } catch (e) {
+      setUserOrg(null);
+      console.log(e.message + ' in getUserOrganizations');
+      setErr(e.error);
+    }
+  };
+*/
 
   return (
     <div className="nav-container">
