@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHistory } from "@fortawesome/free-solid-svg-icons";
-//import { getConfig } from "../config";
+import { getConfig } from "../config";
 
 import {
   Collapse,
@@ -41,6 +41,8 @@ const NavBar = () => {
     logout({
       returnTo: window.location.origin,
     });
+
+  const { appOrigin } = getConfig();
 
 /*
   const { appOrigin } = getConfig();
@@ -166,8 +168,11 @@ const NavBar = () => {
                   <DropdownMenu>
                     <DropdownItem header>{user.name}</DropdownItem>
                     <DropdownItem
-                      tag={RouterNavLink}
-                      to="/profile"
+                      onClick={() => loginWithRedirect({
+                        prompt: 'login',
+                        redirectUri: `${appOrigin}/profile`,
+                        //connection: 'Username-Password-Authentication',
+                      })}
                       className="dropdown-profile"
                       activeClassName="router-link-exact-active"
                     >
