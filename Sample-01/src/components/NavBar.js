@@ -167,12 +167,20 @@ const NavBar = () => {
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem header>{user.name}</DropdownItem>
+                    {/* Force re-auhenticate with username and password
                     <DropdownItem
                       onClick={() => loginWithRedirect({
                         prompt: 'login',
                         redirectUri: `${appOrigin}/profile`,
                         //connection: 'Username-Password-Authentication',
                       })}
+                      className="dropdown-profile"
+                      activeClassName="router-link-exact-active"
+                    >
+                    */}
+                    <DropdownItem
+                      tag={RouterNavLink}
+                      to="/profile"
                       className="dropdown-profile"
                       activeClassName="router-link-exact-active"
                     >
